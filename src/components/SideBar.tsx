@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { Button } from './Button';
-import { Content } from './Content';
-
 // import { Content } from './Content';
 
-import './styles/global.scss';
-import './styles/sidebar.scss';
+// import './styles/global.scss';
+import '../styles/sidebar.scss';
 
 interface GenreResponseProps {
   id: number;

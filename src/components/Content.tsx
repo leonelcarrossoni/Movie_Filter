@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { MovieCard } from './MovieCard';
 
-import './styles/global.scss';
-import './styles/content.scss';
+// import './styles/global.scss';
+import '../styles/content.scss';
 
 interface GenreResponseProps {
   id: number;
