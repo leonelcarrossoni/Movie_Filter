@@ -3,6 +3,7 @@ import { MovieCard } from './MovieCard';
 
 // import './styles/global.scss';
 import '../styles/content.scss';
+import { api } from '../services/api';
 
 interface GenreResponseProps {
   id: number;
@@ -21,13 +22,24 @@ interface MovieProps {
   Runtime: string;
 }
 
-interface ContentProps {
-  selectedGenre: GenreResponseProps,
-  movies: MovieProps[]
+interface IContentProps {
+  selectedGenreId: number;
 }
 
-export function Content({ movies, selectedGenre }: ContentProps) {
+export function Content({ selectedGenreId }: IContentProps) {
   // Complete aqui
+  const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
+  const [movies, setMovies] = useState<MovieProps[]>([]);
+
+  useEffect(() => {
+    api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
+      setMovies(response.data);
+    });
+
+    api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then(response => {
+      setSelectedGenre(response.data);
+      })
+    }, [selectedGenreId]);
 
   return (
     <div className="container">
@@ -38,7 +50,13 @@ export function Content({ movies, selectedGenre }: ContentProps) {
       <main>
         <div className="movies-list">
           {movies.map(movie => (
-            <MovieCard key ={movie.imdbID} title={movie.Title} poster={movie.Poster} runtime={movie.Runtime} rating={movie.Ratings[0].Value} />
+            <MovieCard 
+              key ={movie.imdbID} 
+              title={movie.Title} 
+              poster={movie.Poster} 
+              runtime={movie.Runtime} 
+              rating={movie.Ratings[0].Value} 
+            />
           ))}
         </div>
       </main>
